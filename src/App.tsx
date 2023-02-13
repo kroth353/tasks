@@ -14,7 +14,7 @@ function App(): JSX.Element {
                 Edit <code>src/App.tsx</code> and save. This page will
                 automatically reload.
             </p>
-            <header> Beginning of Task 3 </header>
+            <header>beginning of task 3</header>
             <p></p>
 
             <header></header>
@@ -54,7 +54,7 @@ function App(): JSX.Element {
                                 height: 50
                             }}
                         >
-                            {" This will also have a red background"}
+                            {" This will alsohave a red background"}
                         </div>
                     </Col>
                 </Row>
