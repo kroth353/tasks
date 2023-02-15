@@ -14,10 +14,8 @@ function App(): JSX.Element {
                 Edit <code>src/App.tsx</code> and save. This page will
                 automatically reload.
             </p>
-            <header>beginning of task 3</header>
+            <h1 style={{ background: "green" }}>beginning of task 3</h1>
             <p></p>
-
-            <header></header>
             <Container>
                 <Row>
                     <Col>
@@ -33,9 +31,9 @@ function App(): JSX.Element {
                             <li>Oranges</li>
                             <div
                                 style={{
-                                    backgroundColor: "red",
                                     width: 150,
-                                    height: 50
+                                    height: 50,
+                                    backgroundColor: "red"
                                 }}
                             >
                                 {" This will have a red background"}
@@ -54,7 +52,7 @@ function App(): JSX.Element {
                                 height: 50
                             }}
                         >
-                            {" This will alsohave a red background"}
+                            {" This will also have a red background"}
                         </div>
                     </Col>
                 </Row>
