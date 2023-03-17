@@ -10,7 +10,17 @@ export function makeBlankQuestion(
     name: string,
     type: QuestionType
 ): Question {
-    return {};
+    const newQuestion = {
+        id,
+        name,
+        type,
+        body: "",
+        expected: "",
+        options: [],
+        points: 1,
+        published: false
+    };
+    return newQuestion;
 }
 
 /**
@@ -21,6 +31,9 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
+    if (question.expected.trim().toLowerCase() == answer.trim().toLowerCase()) {
+        return true;
+    }
     return false;
 }
 
@@ -31,6 +44,13 @@ export function isCorrect(question: Question, answer: string): boolean {
  * be exactly one of the options.
  */
 export function isValid(question: Question, answer: string): boolean {
+    if (question.type == "short_answer_question") {
+        return true;
+    } else if (question.type == "multiple_choice_question") {
+        if (question.options.includes(answer)) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -41,7 +61,9 @@ export function isValid(question: Question, answer: string): boolean {
  * name "My First Question" would become "9: My First Q".
  */
 export function toShortForm(question: Question): string {
-    return "";
+    const idAsString = question.id.toString();
+    const firstNineChars = question.name.substring(0, 10);
+    return idAsString + ": " + firstNineChars;
 }
 
 /**
@@ -62,7 +84,15 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    return "";
+    let returnString = "# " + question.name + "\n";
+    returnString += question.body;
+    if (question.type == "multiple_choice_question") {
+        returnString += "\n";
+        returnString += question.options
+            .map((formatting: string): string => "- " + formatting)
+            .join("\n");
+    }
+    return returnString;
 }
 
 /**
@@ -70,7 +100,8 @@ export function toMarkdown(question: Question): string {
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    return question;
+    const newQuestion = { ...question, name: newName };
+    return newQuestion;
 }
 
 /**
@@ -79,7 +110,8 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    return question;
+    const newQuestion = { ...question, published: !question.published };
+    return newQuestion;
 }
 
 /**
@@ -89,7 +121,13 @@ export function publishQuestion(question: Question): Question {
  * The `published` field should be reset to false.
  */
 export function duplicateQuestion(id: number, oldQuestion: Question): Question {
-    return oldQuestion;
+    const newQuestion = {
+        ...oldQuestion,
+        id: id,
+        name: "Copy of " + oldQuestion.name,
+        published: false
+    };
+    return newQuestion;
 }
 
 /**
@@ -100,7 +138,11 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  * Check out the subsection about "Nested Fields" for more information.
  */
 export function addOption(question: Question, newOption: string): Question {
-    return question;
+    const newQuestion = {
+        ...question,
+        options: [...question.options, newOption]
+    };
+    return newQuestion;
 }
 
 /**
@@ -117,5 +159,15 @@ export function mergeQuestion(
     contentQuestion: Question,
     { points }: { points: number }
 ): Question {
-    return contentQuestion;
+    const comboQuestion = {
+        id: id,
+        name: name,
+        type: contentQuestion.type,
+        body: contentQuestion.body,
+        expected: contentQuestion.expected,
+        options: contentQuestion.options,
+        points: points,
+        published: false
+    };
+    return comboQuestion;
 }
