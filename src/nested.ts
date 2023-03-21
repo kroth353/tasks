@@ -1,12 +1,26 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { duplicateQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
  * that are `published`.
  */
+
+//// And here is a true "deep copy"
+//const deepCopy = ghibliMovies.map((movie: Movie): Movie => ({...movie}));
+
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    let returnArray: Question[] = [];
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].published) {
+            returnArray = [...returnArray, DeepCopy[i]];
+        }
+    }
+    return returnArray;
 }
 
 /**
@@ -15,7 +29,20 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    let returnArray: Question[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (
+            DeepCopy[i].expected != "" ||
+            DeepCopy[i].options[0] != null ||
+            DeepCopy[i].body != ""
+        ) {
+            returnArray = [...returnArray, DeepCopy[i]];
+        }
+    }
+    return returnArray;
 }
 
 /***
@@ -26,6 +53,14 @@ export function findQuestion(
     questions: Question[],
     id: number
 ): Question | null {
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].id == id) {
+            return DeepCopy[i];
+        }
+    }
     return null;
 }
 
@@ -34,7 +69,16 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    let returnArray: Question[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].id != id) {
+            returnArray = [...returnArray, DeepCopy[i]];
+        }
+    }
+    return returnArray;
 }
 
 /***
@@ -42,21 +86,44 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    let returnArray: string[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        returnArray = [...returnArray, DeepCopy[i].name];
+    }
+    return returnArray;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    let sum = 0;
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        sum += DeepCopy[i].points;
+    }
+    return sum;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    let sum = 0;
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].published) {
+            sum += DeepCopy[i].points;
+        }
+    }
+    return sum;
 }
 
 /***
@@ -77,7 +144,26 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    return "";
+    let returnString = "";
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    returnString += "id,name,options,points,published";
+    returnString += "\n";
+    for (let i = 0; i < DeepCopy.length - 1; i = i + 1) {
+        returnString += DeepCopy[i].id + ",";
+        returnString += DeepCopy[i].name + ",";
+        returnString += DeepCopy[i].options.length + ",";
+        returnString += DeepCopy[i].points + ",";
+        returnString += DeepCopy[i].published;
+        returnString += "\n";
+    }
+    returnString += DeepCopy[DeepCopy.length - 1].id + ",";
+    returnString += DeepCopy[DeepCopy.length - 1].name + ",";
+    returnString += DeepCopy[DeepCopy.length - 1].options.length + ",";
+    returnString += DeepCopy[DeepCopy.length - 1].points + ",";
+    returnString += DeepCopy[DeepCopy.length - 1].published;
+    return returnString;
 }
 
 /**
@@ -86,7 +172,20 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    let returnArray: Answer[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        const answer: Answer = {
+            correct: false,
+            questionId: DeepCopy[i].id,
+            submitted: false,
+            text: ""
+        };
+        returnArray = [...returnArray, answer];
+    }
+    return returnArray;
 }
 
 /***
@@ -94,7 +193,15 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    let returnArray: Question[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        DeepCopy[i].published = true;
+        returnArray = [...returnArray, DeepCopy[i]];
+    }
+    return returnArray;
 }
 
 /***
@@ -102,7 +209,19 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    if (DeepCopy[0] != null) {
+        const typeOfQ = DeepCopy[0].type;
+        //console.log(typeOfQ);
+        for (let i = 1; i < DeepCopy.length; i = i + 1) {
+            if (DeepCopy[i].type != typeOfQ) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 /***
@@ -116,7 +235,20 @@ export function addNewQuestion(
     name: string,
     type: QuestionType
 ): Question[] {
-    return [];
+    const newQuestion = {
+        id,
+        name,
+        type,
+        body: "",
+        expected: "",
+        options: [],
+        points: 1,
+        published: false
+    };
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    return [...DeepCopy, newQuestion];
 }
 
 /***
@@ -129,7 +261,17 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    let returnArray: Question[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].id == targetId) {
+            DeepCopy[i].name = newName;
+        }
+        returnArray = [...returnArray, DeepCopy[i]];
+    }
+    return returnArray;
 }
 
 /***
@@ -144,7 +286,20 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType
 ): Question[] {
-    return [];
+    let returnArray: Question[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].id == targetId) {
+            DeepCopy[i].type = newQuestionType;
+            if (newQuestionType != "multiple_choice_question") {
+                DeepCopy[i].options = [];
+            }
+        }
+        returnArray = [...returnArray, DeepCopy[i]];
+    }
+    return returnArray;
 }
 
 /**
@@ -163,7 +318,28 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    const newOptions = (question: Question) => {
+        const deepCopy = [...question.options];
+        deepCopy.splice(targetOptionIndex, 1, newOption);
+        return deepCopy;
+    };
+    if (targetOptionIndex == -1) {
+        const target = questions.map(
+            (question: Question): Question =>
+                question.id == targetId
+                    ? { ...question, options: [...question.options, newOption] }
+                    : { ...question }
+        );
+        return target;
+    } else {
+        const target = questions.map(
+            (question: Question): Question =>
+                question.id == targetId
+                    ? { ...question, options: newOptions(question) }
+                    : { ...question }
+        );
+        return target;
+    }
 }
 
 /***
@@ -177,5 +353,20 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    let returnArray: Question[] = [];
+    const DeepCopy = questions.map(
+        (question: Question): Question => ({ ...question })
+    );
+    for (let i = 0; i < DeepCopy.length; i = i + 1) {
+        if (DeepCopy[i].id != targetId) {
+            returnArray = [...returnArray, DeepCopy[i]];
+        } else {
+            returnArray = [
+                ...returnArray,
+                DeepCopy[i],
+                duplicateQuestion(newId, DeepCopy[i])
+            ];
+        }
+    }
+    return returnArray;
 }
