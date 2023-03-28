@@ -19,55 +19,6 @@ function App(): JSX.Element {
                 UD CISC275 with React Hooks and TypeScript Kayla Roth Hello
                 World!!
             </header>
-<<<<<<< HEAD
-            <p>
-                Edit <code>src/App.tsx</code> and save. This page will
-                automatically reload.
-            </p>
-            <h1 style={{ background: "green" }}>beginning of task 3</h1>
-            <p></p>
-            <Container>
-                <Row>
-                    <Col>
-                        {" "}
-                        <Button onClick={() => console.log("Hello World!")}>
-                            Log Hello World
-                        </Button>{" "}
-                        <p></p>
-                        Fruits:
-                        <ol>
-                            <li>Bananas </li>
-                            <li>Apples</li>
-                            <li>Oranges</li>
-                            <div
-                                style={{
-                                    width: 150,
-                                    height: 50,
-                                    backgroundColor: "red"
-                                }}
-                            >
-                                {" This will have a red background"}
-                            </div>
-                        </ol>
-                    </Col>
-
-                    <Col>
-                        <p>
-                            <img src={quokka} alt="Quokka" />
-                        </p>
-                        <div
-                            style={{
-                                backgroundColor: "red",
-                                width: 150,
-                                height: 50
-                            }}
-                        >
-                            {" This will also have a red background"}
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-=======
             <hr></hr>
             <Counter></Counter>
             <hr />
@@ -80,7 +31,6 @@ function App(): JSX.Element {
             <ChangeType></ChangeType>
             <hr />
             <CycleHoliday></CycleHoliday>
->>>>>>> upstream/task-state
         </div>
     );
 }
